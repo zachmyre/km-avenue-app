@@ -43,7 +43,7 @@ export default function ExpenseTable({expenses}){
      <>
     <div className="flex items-center justify-center space-x-5 mb-3">
       <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => setOpened(true)}>Add Expense</Button>
-      <h2>Total Expenses:<br/><span>{sum}</span></h2>
+      <h2>Total Expenses:<br/><span>{parseFloat(sum).toFixed(2)}</span></h2>
     </div>
     <Table striped highlightOnHover fontSize="md" horizontalSpacing="xl" verticalSpacing="md"
     className=""
@@ -63,8 +63,11 @@ export default function ExpenseTable({expenses}){
         onClose={() => setOpened(false)}
       >
         <div className="flex flex-col space-y-3 items-center justify-center">
+          <label className="">Product:</label>
           <TextInput variant="filled" value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Products Purchased" />
+          <label className="">Price:</label>
           <TextInput variant="filled" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} placeholder="Cost" />
+          <label className="">Vendor:</label>
           <TextInput variant="filled" value={vendor} onChange={(e) => setVendor(e.target.value)} placeholder="Vendor" />
           <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => addExpense({product: product, price: price, vendor: vendor})}>Add</Button>
         </div>
