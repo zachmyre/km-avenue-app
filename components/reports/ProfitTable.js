@@ -4,7 +4,7 @@ import styles from '../../styles/Table.module.css'
 import { Button, Modal, TextInput, Select, Card, Image, Text, Badge, Group  } from '@mantine/core';
 
 
-export default function saleTable({sales}){
+export default function ProfitTable({sales}){
 
     const [customer, setCustomer] = useState('');
     const [price, setPrice] = useState('');
