@@ -113,7 +113,7 @@ export default function ProfitTable({sales}){
           <label className="">Customer:</label>
           <TextInput variant="filled" value={customer} onChange={(e) => setCustomer(e.target.value)} placeholder="Customer" />
           <label className="">Price:</label>
-          <TextInput variant="filled" value={price} onChange={(e) => setPrice(parseFloat(e.target.value))} placeholder="Price" />
+          <TextInput variant="filled" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
           <label className="">Product:</label>
           <TextInput variant="filled" value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Product" />
           <label className="">Form of Payment:</label>
@@ -128,7 +128,7 @@ export default function ProfitTable({sales}){
       ]}
       onChange={(e) => setPaid(e)}
       />
-          <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => addSale({customer: customer, price: price, product: product, formOfPayment: formOfPayment, paid: paid})}>Add</Button>
+          <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => addSale({customer: customer, price: parseFloat(price), product: product, formOfPayment: formOfPayment, paid: paid})}>Add</Button>
         </div>
       </Modal>
   </div>
