@@ -4,6 +4,7 @@ import styles from '../../styles/Home.module.css'
 import clientPromise from '../../lib/mongodb'
 import Navbar from '../../components/navigation/Navbar'
 import ExpenseTable from '../../components/reports/ExpenseTable';
+import ProfitTable from '../../components/reports/ProfitTable';
 import useMemo from 'react';
 
 export default function Home({isConnected, expenses, sales}) {
@@ -12,6 +13,7 @@ export default function Home({isConnected, expenses, sales}) {
     <div className={styles.container}>
 
     <ExpenseTable expenses={expenses} />
+    <ProfitTable sales={sales} />
     </div>
     </>
   )
