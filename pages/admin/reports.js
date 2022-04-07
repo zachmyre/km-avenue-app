@@ -1,13 +1,14 @@
-import Head from 'next/head'
-import Image from 'next/image'
+import { Head, Image } from 'next'
 import styles from '../../styles/Home.module.css'
 import clientPromise from '../../lib/mongodb'
 import Navbar from '../../components/navigation/Navbar'
-import ExpenseTable from '../../components/reports/ExpenseTable';
-import ProfitTable from '../../components/reports/ProfitTable';
-import useMemo from 'react';
+import ExpenseTable from '../../components/reports/expenses/ExpenseTable';
+import ProfitTable from '../../components/reports/sales/ProfitTable';
 
 export default function Home({isConnected, expenses, sales}) {
+
+
+
   return (
       <>
     <div className={styles.container}>

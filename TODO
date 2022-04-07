@@ -1,0 +1,12 @@
+TODO+ by Fabio Spampinato
+
+Todo:
+  ☐ Update sales report to include edit / delete as well as refresh. Mimick expense report.
+  ☐ Add a todo list type of feature for Kandyce to easily track her orders and what needs to be done.
+  ☐ Polish up the UI for admin reports.
+  ☐ Add login / logout functionality.
+  ☐ Add menu for admin stuff if admin is logged in (Reports, Todo list, etc).
+
+☐ ctrl + enter
+✘ alt + c @cancelled(22-04-07 09:50)
+✔ alt + d @done(22-04-07 09:51)

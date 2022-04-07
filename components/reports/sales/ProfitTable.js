@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Table } from '@mantine/core';
-import styles from '../../styles/Table.module.css'
+import styles from '../../../styles/Table.module.css'
 import { Button, Modal, TextInput, Select, Card, Image, Text, Badge, Group  } from '@mantine/core';
 
 

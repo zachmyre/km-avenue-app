@@ -1,4 +1,4 @@
-import clientPromise from "../../lib/mongodb"
+import clientPromise from "../../../lib/mongodb"
 
 export default async (req, res) => {
     const {product, price, vendor} = req.body;
