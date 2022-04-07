@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Table } from '@mantine/core';
 import styles from '../../styles/Table.module.css'
 import { Button, Modal, TextInput, Select, Card, Image, Text, Badge, Group  } from '@mantine/core';
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid'
 
 
 export default function ExpenseTable({expenses}){
@@ -10,15 +11,21 @@ export default function ExpenseTable({expenses}){
     const [price, setPrice] = useState('');
     const [vendor, setVendor] = useState('');
     const [filterNumber, setFilterNumber] = useState(-5);
-
-    const [opened, setOpened] = useState(false);
+    const [editExpense, setEditExpense] = useState(false);
+    const [currentExpense, setCurrentExpense] = useState({_id: '', product: '', price: '', vendor: ''});
+    const [openedExpense, setOpenedExpense] = useState(false);
+    const [openEditExpense, setopenEditExpense] = useState(false);
 
     const filteredExpenses = expenses.slice(filterNumber)
     const rows = filteredExpenses.map((expense) => (
-      <tr key={expense._id}>
+      <tr key={expense._id} onClick={() => {
+        setEditExpense(true);
+        setCurrentExpense(expense);
+        }} >
         <td>{expense.product}</td>
         <td>{expense.price}</td>
         <td>{expense.vendor}</td>
+        {/* <td><PencilAltIcon className="h-5 w-5 text-blue-500"/></td> */}
       </tr>
     ));
 
@@ -37,10 +44,50 @@ export default function ExpenseTable({expenses}){
         },
       });
       const data = await response.json();
+      //TODO set message to let user know if expense was added or not
       console.log(data);
       }
 
+    const deleteExpense = async () => {
+      console.log(currentExpense);
+      if(currentExpense._id){
+        const response = await fetch("/api/deleteExpense", {
+          method: "POST",
+          body: JSON.stringify(currentExpense),
+          headers:
+          {
+            "Content-Type":
+            "application/json",
+          },
+        });
+        const data = await response.json();
+        //TODO set message to let user know if expense was deleted or not
+        console.log(data);
+    }
+    }
 
+    const updateExpense = async () => {
+      if(currentExpense._id){
+        const response = await fetch("/api/editExpense", {
+          method: "POST",
+          body: JSON.stringify(currentExpense),
+          headers:
+          {
+            "Content-Type":
+            "application/json",
+          },
+        });
+        const data = await response.json();
+        //TODO set message to let user know if expense was updated or not
+        console.log(data);
+      }
+    }
+
+    function refreshPage() {
+      setTimeout(() => {
+      window.location.reload(false);
+      }, 500);
+    }
 
    return (
      <div className="flex flex-col items-center justify-center w-screen">
@@ -51,7 +98,7 @@ export default function ExpenseTable({expenses}){
         </Text>
       </Card>
     </div>
-    <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => setOpened(true)}>Add Expense</Button>
+    <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => setOpenedExpense(true)}>Add Expense</Button>
     <Select
     className="mx-16 my-3"
       label="Filter Expenses"
@@ -74,13 +121,14 @@ export default function ExpenseTable({expenses}){
         <th>Product</th>
         <th>Price</th>
         <th>Vendor</th>
+        {/* <th>{' '}</th> */}
       </tr>
     </thead>
     <tbody>{rows}</tbody>
   </Table>
   <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
+        opened={openedExpense}
+        onClose={() => setOpenedExpense(false)}
       >
         <div className="flex flex-col space-y-3 items-center justify-center">
           <label className="">Product:</label>
@@ -89,9 +137,42 @@ export default function ExpenseTable({expenses}){
           <TextInput variant="filled" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
           <label className="">Vendor:</label>
           <TextInput variant="filled" value={vendor} onChange={(e) => setVendor(e.target.value)} placeholder="Vendor" />
-          <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => addExpense({product: product, price: parseFloat(price), vendor: vendor})}>Add</Button>
+          <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => {addExpense({product: product, price: parseFloat(price), vendor: vendor}); refreshPage();}}>Add</Button>
         </div>
       </Modal>
+
+    <Modal
+      opened={openEditExpense}
+      onClose={() => setopenEditExpense(false)}
+    >
+      
+      <div className="flex flex-col space-y-3 items-center justify-center">
+        <Text size='xl' className='font-bold'>Edit Expense</Text>
+        <label className="">Product:</label>
+        <TextInput variant="filled" value={currentExpense.product || ""} onChange={(e) => setCurrentExpense({...currentExpense, product: e.target.value || ""})} placeholder="Products Purchased" />
+        <label className="">Price:</label>
+        <TextInput variant="filled" value={currentExpense.price || ""} onChange={(e) => setCurrentExpense({...currentExpense, price: e.target.value || ""})} placeholder="Price" />
+        <label className="">Vendor:</label>
+        <TextInput variant="filled" value={currentExpense.vendor || ""} onChange={(e) => setCurrentExpense({...currentExpense, vendor: e.target.value || ""})} placeholder="Vendor" />
+        <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => {updateExpense({product: product, price: parseFloat(price), vendor: vendor}); refreshPage()}}>Edit</Button>
+      </div>
+    </Modal>
+
+    <Modal
+      opened={editExpense}
+      onClose={() => setEditExpense(false)}
+    >
+      <div className="flex flex-row m-12 items-center justify-around">
+        <Text onClick={() => {setopenEditExpense(true); setEditExpense(false);}} size="xl" className="flex flex-col items-center justify-center">
+          Edit
+          <PencilAltIcon className="h-12 w-12 text-blue-500" />
+        </Text>
+        <Text onClick={() => {deleteExpense(); refreshPage();}} size="xl" className="flex flex-col items-center justify-center">
+          Delete
+        <TrashIcon className="h-12 w-12 text-red-500" />
+        </Text>
+      </div>
+    </Modal>
   </div>
    );
 };
