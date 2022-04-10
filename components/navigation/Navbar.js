@@ -13,6 +13,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import Image from 'next/image';
+import logo from '../../public/kmavenue.png';
 
 const pages = [['Home','/'], ['Products', '/products'], ['Contact', '/contact'], ['Admin', '/admin']];
 const settings = [['Dashboard', '/admin'], ['Order Reports', '/admin/orders'], ['Expense Reports', '/admin/expense'], ['Logout', '/logout']];
@@ -41,7 +43,7 @@ const Navbar = () => {
     <Head>
       <title>KM Avenue</title>
     </Head>
-    <AppBar className="mb-5 bg-pink-500" position="static">
+    <AppBar className="mb-2 bg-pink-500 shadow-none" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -115,7 +117,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="KM Avenue" src="/static/images/avatar/2.jpg" />
+                <Image src={logo} alt="KM Avenue" width={50} height={50} />
               </IconButton>
             </Tooltip>
             <Menu
