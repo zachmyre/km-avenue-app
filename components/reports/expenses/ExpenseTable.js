@@ -35,11 +35,20 @@ export default function ExpenseTable({expenses}){
     return total + expense.price;
   }, 0);
 
-    const columns = [
-      { field: 'product', headerName: 'Product', flex:1, minWidth: 50 },
-      { field: 'price', headerName: 'Price', flex:1, minWidth: 50 },
-      { field: 'vendor', headerName: 'Vendor', flex:1, minWidth: 50 },
-    ]
+  const columns = [
+    { field: 'product', headerName: 'Product', flex:1, minWidth: 50 },
+    { field: 'price', headerName: 'Price', flex:1, minWidth: 50 },
+    { field: 'vendor', headerName: 'Vendor', flex:1, minWidth: 50 },
+  ]
+
+  const handleOnCellClick = (params) => {
+    if(params.row){
+      setCurrentExpense(params.row);
+      setEditExpense(true);
+    }
+  }
+
+  
 
 
     const addExpense = async (expenseData) => {
@@ -115,20 +124,21 @@ export default function ExpenseTable({expenses}){
           Expenses
         </Typography>
         <Typography className='tracking-wider' variant="body2">
-         ${sum.toFixed(2)}
+         ${parseFloat(sum).toFixed(2)}
         </Typography>
       </CardContent>
         </Card>
-    <div style={{height: '50vh'}} className="x-5 mb-3 w-5/6">
+    <div style={{height: '65vh'}} className="x-5 mb-3 w-5/6">
       <DataGrid
         getRowId={(row) => row._id}
         rows={rowsTwo}
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10]}
+        onCellClick={handleOnCellClick}
       />
     </div>
-    <ButtonUI className="bg-pink-500 hover:bg-pink-700 text-white font-bold my-5 py-2 px-4 rounded" onClick={() => setOpenedExpense(true)}>Add Expense</ButtonUI>
+    <ButtonUI className="bg-pink-500 hover:bg-pink-700 text-white font-bold my-2 py-2 px-4 rounded" onClick={() => setOpenedExpense(true)}>Add Expense</ButtonUI>
   <Modal
         opened={openedExpense}
         onClose={() => setOpenedExpense(false)}
