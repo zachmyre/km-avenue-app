@@ -19,6 +19,7 @@
     "@mui/material": "^5.6.0",
     "@mui/x-data-grid": "^5.8.0",
     "mongodb": "^4.4.1",
+    "tailwindcss": "^3.0.23",
     "next": "12.1.4",
     "react": "18.0.0",
     "react-dom": "18.0.0"
