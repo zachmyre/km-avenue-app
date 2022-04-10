@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Table } from '@mantine/core';
 import { useRouter } from 'next/router'
-import styles from '../../../styles/Table.module.css'
-import { Button, Modal, TextInput, Select, Card, Image, Text, Badge, Group  } from '@mantine/core';
-import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid'
+import { Button, Modal, TextInput, Select, Text  } from '@mantine/core';
+import { Button as ButtonUI } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid';
+import { Card, CardContent, Typography } from '@mui/material';
 
 
-export default function ExpenseTable({expenses, refresh}){
+export default function ExpenseTable({expenses}){
     const router = useRouter();
     const refreshData = () => {
       router.replace(router.asPath);
@@ -15,28 +16,31 @@ export default function ExpenseTable({expenses, refresh}){
     const [product, setProduct] = useState('');
     const [price, setPrice] = useState('');
     const [vendor, setVendor] = useState('');
-    const [filterNumber, setFilterNumber] = useState(-5);
     const [editExpense, setEditExpense] = useState(false);
     const [currentExpense, setCurrentExpense] = useState({_id: '', product: '', price: '', vendor: ''});
     const [openedExpense, setOpenedExpense] = useState(false);
     const [openEditExpense, setopenEditExpense] = useState(false);
 
-    const filteredExpenses = expenses.slice(filterNumber)
-    const rows = filteredExpenses.map((expense) => (
-      <tr key={expense._id} onClick={() => {
-        setEditExpense(true);
-        setCurrentExpense(expense);
-        }} >
-        <td>{expense.product}</td>
-        <td>{expense.price}</td>
-        <td>{expense.vendor}</td>
-        {/* <td><PencilAltIcon className="h-5 w-5 text-blue-500"/></td> */}
-      </tr>
-    ));
+    const rowsTwo = (expenses && expenses.length > 0) ? reverseArr(expenses) : [];
 
-    const sum = expenses.reduce((total, expense) => {
-      return total + expense.price;
-    }, 0);
+    function reverseArr(input) {
+      var ret = new Array;
+      for(var i = input.length-1; i >= 0; i--) {
+          ret.push(input[i]);
+      }
+      return ret;
+  }
+
+  const sum = expenses.reduce((total, expense) => {
+    return total + expense.price;
+  }, 0);
+
+    const columns = [
+      { field: 'product', headerName: 'Product', flex:1, minWidth: 50 },
+      { field: 'price', headerName: 'Price', flex:1, minWidth: 50 },
+      { field: 'vendor', headerName: 'Vendor', flex:1, minWidth: 50 },
+    ]
+
 
     const addExpense = async (expenseData) => {
       const response = await fetch("/api/expenses/addExpense", {
@@ -104,42 +108,27 @@ export default function ExpenseTable({expenses, refresh}){
     }
 
    return (
-     <div className="flex flex-col items-center justify-center w-screen">
-    <div className="-x-5 mb-3">
-    <Card shadow="md" p="lg" className="flex items-center justify-center">
-        <Text size="lg">
-          Total Expenses: {parseFloat(sum).toFixed(2)}
-        </Text>
-      </Card>
-    </div>
-    <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => setOpenedExpense(true)}>Add Expense</Button>
-    <Select
-    className="mx-16 my-3"
-      label="Filter Expenses"
-      placeholder="5"
-      data={[
-        { value: -5, label: '5' },
-        { value: -10, label: '10' },
-        { value: -20, label: '20' },
-        { value: -50, label: '50' },
-        { value: 0, label: 'All' },
-      ]}
-      onChange={(e) => setFilterNumber(e)}
+     <div className="flex flex-col items-center w-screen">
+        <Card className="w-5/6 mb-5 text-center" variant="outlined" style={{marginTop: '1rem'}}>
+        <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          Expenses
+        </Typography>
+        <Typography className='tracking-wider' variant="body2">
+         ${sum.toFixed(2)}
+        </Typography>
+      </CardContent>
+        </Card>
+    <div style={{height: '50vh'}} className="x-5 mb-3 w-5/6">
+      <DataGrid
+        getRowId={(row) => row._id}
+        rows={rowsTwo}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
       />
-    <Table striped highlightOnHover fontSize="sm" horizontalSpacing="xl" verticalSpacing="md"
-    className=""
-    >
-      <caption className={styles.caption}>Expense Report</caption>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Vendor</th>
-        {/* <th>{' '}</th> */}
-      </tr>
-    </thead>
-    <tbody>{rows}</tbody>
-  </Table>
+    </div>
+    <ButtonUI className="bg-pink-500 hover:bg-pink-700 text-white font-bold my-5 py-2 px-4 rounded" onClick={() => setOpenedExpense(true)}>Add Expense</ButtonUI>
   <Modal
         opened={openedExpense}
         onClose={() => setOpenedExpense(false)}

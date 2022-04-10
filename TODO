@@ -1,6 +1,7 @@
 TODO+ by Fabio Spampinato
 
 Todo:
+  ☐ Switch from mantine to mui component library
   ☐ Update sales report to include edit / delete as well as refresh. Mimick expense report.
   ☐ Add a todo list type of feature for Kandyce to easily track her orders and what needs to be done.
   ☐ Polish up the UI for admin reports.
