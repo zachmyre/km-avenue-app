@@ -41,7 +41,7 @@ const Navbar = () => {
     <Head>
       <title>KM Avenue</title>
     </Head>
-    <AppBar className="mb-5" position="static">
+    <AppBar className="mb-5 bg-pink-500" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -98,7 +98,7 @@ const Navbar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            KM Avenue
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -115,7 +115,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="KM Avenue" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
