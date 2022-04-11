@@ -15,7 +15,7 @@ export default function ProfitTable({sales}){
 
     const [opened, setOpened] = useState(false);
 
-    const filteredSales = sales.slice(filterNumber)
+    const filteredSales = (sales && sales.length > 0) ? sales.slice(filterNumber) : [];
     const rows = filteredSales.map((sale) => {
         if(sale.paid){
             return(
@@ -40,11 +40,11 @@ export default function ProfitTable({sales}){
         }
     });
 
-    const sum = sales.reduce((total, sale) => {
+    const sum = (sales && sales.length > 0 ) ? sales.reduce((total, sale) => {
       return total + sale.price;
-    }, 0);
+    }, 0) : 0;
 
-    const paidSales =  sales.filter(sale => sale.paid);
+    const paidSales = (sales && sales.length > 0 ) ? sales.filter(sale => sale.paid) : [];
     const paidSum = paidSales.reduce((total, sale) => {
         return total + sale.price;
       }, 0);
