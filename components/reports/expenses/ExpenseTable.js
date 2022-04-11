@@ -138,7 +138,7 @@ export default function ExpenseTable({expenses}){
         onCellClick={handleOnCellClick}
       />
     </div>
-    <Button style={{color:  '#FFC0CB !important', fontWeight: 'bold'}} variant="contained" onClick={() => setOpenedExpense(true)}>Add Expense</Button>
+    <Button style={{backgroundColor:  '#FFC0CB', fontWeight: 'bold'}} variant="contained" onClick={() => setOpenedExpense(true)}>Add Expense</Button>
   <Modal
         opened={openedExpense}
         onClose={() => setOpenedExpense(false)}
