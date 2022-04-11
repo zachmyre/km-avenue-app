@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router'
-import { Button, Modal, TextInput, Select, Text  } from '@mantine/core';
-import { Button as ButtonUI } from '@mui/material';
+import { Modal, TextInput, Select, Text  } from '@mantine/core';
+import { Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid';
 import { Card, CardContent, Typography } from '@mui/material';
@@ -138,7 +138,7 @@ export default function ExpenseTable({expenses}){
         onCellClick={handleOnCellClick}
       />
     </div>
-    <ButtonUI className="bg-pink-500 hover:bg-pink-700 text-white font-bold my-2 py-2 px-4 rounded" onClick={() => setOpenedExpense(true)}>Add Expense</ButtonUI>
+    <Button color="primary" variant="contained" className="text-pink-200 font-bold" onClick={() => setOpenedExpense(true)}>Add Expense</Button>
   <Modal
         opened={openedExpense}
         onClose={() => setOpenedExpense(false)}

@@ -43,7 +43,7 @@ const Navbar = () => {
     <Head>
       <title>KM Avenue</title>
     </Head>
-    <AppBar className="mb-2 bg-pink-500 shadow-none" position="static">
+    <AppBar style={{backgroundColor: '#FFC0CB !important'}} className="mb-2 shadow-none" position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
