@@ -150,7 +150,7 @@ export default function ExpenseTable({expenses}){
           <TextInput variant="filled" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
           <label className="">Vendor:</label>
           <TextInput variant="filled" value={vendor} onChange={(e) => setVendor(e.target.value)} placeholder="Vendor" />
-          <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => {addExpense({product: product, price: parseFloat(price), vendor: vendor});}}>Add</Button>
+          <Button style={{backgroundColor:  '#FFC0CB', fontWeight: 'bold'}} variant="contained" onClick={() => {addExpense({product: product, price: parseFloat(price), vendor: vendor});}}>Add</Button>
         </div>
       </Modal>
 
@@ -167,7 +167,7 @@ export default function ExpenseTable({expenses}){
         <TextInput variant="filled" value={currentExpense.price || ""} onChange={(e) => setCurrentExpense({...currentExpense, price: e.target.value || ""})} placeholder="Price" />
         <label className="">Vendor:</label>
         <TextInput variant="filled" value={currentExpense.vendor || ""} onChange={(e) => setCurrentExpense({...currentExpense, vendor: e.target.value || ""})} placeholder="Vendor" />
-        <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => {updateExpense({product: product, price: parseFloat(price), vendor: vendor});}}>Edit</Button>
+        <Button style={{backgroundColor:  '#FFC0CB', fontWeight: 'bold'}} variant="contained" onClick={() => {updateExpense({product: product, price: parseFloat(price), vendor: vendor});}}>Edit</Button>
       </div>
     </Modal>
 
