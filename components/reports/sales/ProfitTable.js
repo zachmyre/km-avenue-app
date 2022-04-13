@@ -1,136 +1,210 @@
 import { useState } from 'react';
-import { Table } from '@mantine/core';
-import styles from '../../../styles/Table.module.css'
-import { Button, Modal, TextInput, Select, Card, Image, Text, Badge, Group  } from '@mantine/core';
+import { useRouter } from 'next/router'
+import { Modal, TextInput, Select, Text  } from '@mantine/core';
+import { Button } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import { PencilAltIcon, TrashIcon } from '@heroicons/react/solid';
+import { Card, CardContent, Typography } from '@mui/material';
 
 
 export default function ProfitTable({sales}){
+    const router = useRouter();
+    const refreshData = () => {
+      router.replace(router.asPath);
+    }
 
     const [customer, setCustomer] = useState('');
     const [price, setPrice] = useState('');
     const [product, setProduct] = useState('');
     const [formOfPayment, setFormOfPayment] = useState('');
-    const [paid, setPaid] = useState('');
-    const [filterNumber, setFilterNumber] = useState(-5);
+    const [paid, setPaid] = useState('no');
+    const [editSale, setEditSale] = useState(false);
+    const [currentSale, setCurrentSale] = useState({});
+    const [openedSale, setOpenedSale] = useState(false);
+    const [openEditSale, setOpenEditSale] = useState(false);
 
-    const [opened, setOpened] = useState(false);
+    const rowsTwo = (sales && sales.length > 0) ? reverseArr(sales) : [];
 
-    const filteredSales = (sales && sales.length > 0) ? sales.slice(filterNumber) : [];
-    const rows = filteredSales.map((sale) => {
-        if(sale.paid){
-            return(
-                <tr key={sale._id}>
-                    <td className="bg-green-300">{sale.customer}</td>
-                    <td className="bg-green-300">{sale.price}</td>
-                    <td className="bg-green-300">{sale.product}</td>
-                    <td className="bg-green-300">{sale.formOfPayment}</td>
-                </tr>
-            )
-        
-        } else {
-            return(
-            <tr key={sale._id}>
-                <td className="bg-red-300">{sale.customer}</td>
-                <td className="bg-red-300">{sale.price}</td>
-                <td className="bg-red-300">{sale.product}</td>
-                <td className="bg-red-300">{sale.formOfPayment}</td>
-            </tr>
-            )
-        
-        }
-    });
+    function reverseArr(input) {
+      var ret = new Array;
+      for(var i = input.length-1; i >= 0; i--) {
+          ret.push(input[i]);
+      }
+      return ret;
+  }
 
-    const sum = (sales && sales.length > 0 ) ? sales.reduce((total, sale) => {
-      return total + sale.price;
-    }, 0) : 0;
+  const sum = sales.reduce((total, sale) => {
+    return total + parseFloat(sale.price);
+  }, 0);
 
-    const paidSales = (sales && sales.length > 0 ) ? sales.filter(sale => sale.paid) : [];
-    const paidSum = paidSales.reduce((total, sale) => {
-        return total + sale.price;
-      }, 0);
+  const columns = [
+    { field: 'customer', headerName: 'Customer', flex:1, minWidth: 50 },
+    { field: 'product', headerName: 'Product', flex:1, minWidth: 50 },
+    { field: 'price', headerName: 'Price', flex:1, minWidth: 50 },
+    { field: 'formOfPayment', headerName: 'Payment', flex:1, minWidth: 50 },
+    { field: 'paid', headerName: 'Paid', flex:1, minWidth: 50 },
+  ]
 
-    const addSale = async (saleData) => {
-      const response = await fetch("/api/addSale", {
+  const handleOnCellClick = (params) => {
+    if(params.row){
+      setCurrentSale(params.row);
+      setEditSale(true);
+    }
+  }
+
+  
+
+
+    const addExpense = async (expenseData) => {
+      console.log(expenseData);
+      const response = await fetch("/api/sales/addSale", {
         method: "POST",
-        body: JSON.stringify(saleData),
+        body: JSON.stringify(expenseData),
         headers: 
         {
           "Content-Type": 
           "application/json",
         },
       });
-      const data = await response.json();
-      console.log(data);
+      const data = await response;
+      if(data.status === 200){
+        refreshPage();
+      }
       }
 
+    const deleteSale = async () => {
+      console.log(currentSale);
+      if(currentSale._id){
+        const response = await fetch("/api/sales/deleteSale", {
+          method: "POST",
+          body: JSON.stringify(currentSale),
+          headers:
+          {
+            "Content-Type":
+            "application/json",
+          },
+        });
+        const data = await response;
+        if(data.status === 200){
+          refreshPage();
+        }
+    }
+    }
 
+    const updateSale = async () => {
+      if(currentSale._id){
+        const response = await fetch("/api/sales/editSale", {
+          method: "POST",
+          body: JSON.stringify(currentSale),
+          headers:
+          {
+            "Content-Type":
+            "application/json",
+          },
+        });
+        const data = await response;
+        if(data.status === 200){
+          refreshPage();
+        }
+      }
+    }
+
+    function refreshPage() {
+      setTimeout(() => {
+        refreshData();
+        setCustomer('');
+        setPrice('');
+        setProduct('');
+        setFormOfPayment('');
+        setPaid('no');
+        setCurrentSale({});
+        setEditSale(false);
+        setOpenedSale(false);
+        setOpenEditSale(false);
+      }, 300);
+    }
 
    return (
-     <div className="flex flex-col items-center justify-center w-screen mt-5">
-    <div className="-x-5 mb-3">
-    <Card shadow="md" p="lg" className="flex flex-col items-center justify-center">
-        <Text size="lg" className="m-2">
-            Paid Sales: {parseFloat(paidSum).toFixed(2)}
-        </Text>
-        <Text size="lg" className="m-2">
-          Total Sales: {parseFloat(sum).toFixed(2)}
-        </Text>
-      </Card>
-    </div>
-    <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => setOpened(true)}>Add Sale</Button>
-    <Select
-    className="mx-16 my-3"
-      label="Filter sales"
-      placeholder="5"
-      data={[
-        { value: -5, label: '5' },
-        { value: -10, label: '10' },
-        { value: -20, label: '20' },
-        { value: -50, label: '50' },
-        { value: 0, label: 'All' },
-      ]}
-      onChange={(e) => setFilterNumber(e)}
+     <div className="flex flex-col items-center w-screen mb-3">
+        <Card className="w-5/6 mb-5 text-center" variant="outlined" style={{marginTop: '1rem'}}>
+        <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          Sales
+        </Typography>
+        <Typography className='tracking-wider' variant="body2">
+         ${parseFloat(sum).toFixed(2)}
+        </Typography>
+      </CardContent>
+        </Card>
+    <div style={{height: '65vh'}} className="x-5 mb-3 w-5/6">
+      <DataGrid
+        getRowId={(row) => row._id}
+        rows={rowsTwo}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10]}
+        onCellClick={handleOnCellClick}
       />
-    <Table striped highlightOnHover fontSize="sm" horizontalSpacing="lg" verticalSpacing="md"
-    className=""
-    >
-      <caption className={styles.caption}>Sales Report</caption>
-    <thead>
-      <tr >
-        <th>Customer</th>
-        <th>Price</th>
-        <th>Product</th>
-        <th>Payment</th>
-      </tr>
-    </thead>
-    <tbody>{rows}</tbody>
-  </Table>
+    </div>
+    <Button style={{backgroundColor:  '#FFC0CB', fontWeight: 'bold'}} variant="contained" onClick={() => setOpenedSale(true)}>Add Sale</Button>
   <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
+        opened={openedSale}
+        onClose={() => setOpenedSale(false)}
       >
         <div className="flex flex-col space-y-3 items-center justify-center">
-          <label className="">Customer:</label>
-          <TextInput variant="filled" value={customer} onChange={(e) => setCustomer(e.target.value)} placeholder="Customer" />
-          <label className="">Price:</label>
-          <TextInput variant="filled" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
-          <label className="">Product:</label>
-          <TextInput variant="filled" value={product} onChange={(e) => setProduct(e.target.value)} placeholder="Product" />
-          <label className="">Form of Payment:</label>
-          <TextInput variant="filled" value={formOfPayment} onChange={(e) => setFormOfPayment(e.target.value)} placeholder="Form of Payment" />
-          <label className="">Paid:</label>
-          <Select
-    className=""
-      placeholder="Did they pay yet?"
-      data={[
-        { value: true, label: 'Yes' },
-        { value: false, label: 'No' },
-      ]}
-      onChange={(e) => setPaid(e)}
-      />
-          <Button className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded" onClick={() => addSale({customer: customer, price: parseFloat(price), product: product, formOfPayment: formOfPayment, paid: paid})}>Add</Button>
+        <label className="">Customer:</label>
+        <TextInput variant="filled" value={customer || ""} onChange={(e) => setCustomer(e.target.value)} placeholder="Customer" />
+        <label className="">Price:</label>
+        <TextInput variant="filled" value={price || ""} onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
+        <label className="">Product:</label>
+        <TextInput variant="filled" value={product || ""} onChange={(e) => setProduct(e.target.value)} placeholder="Product" />
+        <label className="">Payment:</label>
+        <TextInput variant="filled"  value={formOfPayment || ""} onChange={(e) => setFormOfPayment(e.target.value)} placeholder="Payment" />
+        <label className="">Paid (yes or no):</label>
+        <TextInput variant="filled" value={paid || ""} onChange={(e) => setPaid(e.target.value)} placeholder="true" />
+        <Button style={{backgroundColor:  '#FFC0CB', fontWeight: 'bold'}} variant="contained" onClick={() => {addExpense({customer: customer, price: parseFloat(price), product: product, formOfPayment: formOfPayment, paid: paid});}}>Add</Button>
         </div>
       </Modal>
+
+    <Modal
+      opened={openEditSale}
+      onClose={() => {
+        setCurrentSale({});
+        setOpenEditSale(false);
+        }}
+    >
+      
+      <div className="flex flex-col space-y-3 items-center justify-center">
+        <Text size='xl' className='font-bold'>Edit Sale</Text>
+        <label className="">Customer:</label>
+        <TextInput variant="filled" value={currentSale.customer || ""} onChange={(e) => setCurrentSale({...currentSale, customer: e.target.value || ""})} placeholder="Customer" />
+        <label className="">Price:</label>
+        <TextInput variant="filled" value={currentSale.price || ""} onChange={(e) => setCurrentSale({...currentSale, price: e.target.value || ""})} placeholder="Price" />
+        <label className="">Product:</label>
+        <TextInput variant="filled" value={currentSale.product || ""} onChange={(e) => setCurrentSale({...currentSale, product: e.target.value || ""})} placeholder="Product" />
+        <label className="">Payment:</label>
+        <TextInput variant="filled" value={currentSale.formOfPayment || ""} onChange={(e) => setCurrentSale({...currentSale, formOfPayment: e.target.value || ""})} placeholder="Payment" />
+        <label className="">Paid (yes or no):</label>
+        <TextInput variant="filled" value={currentSale.paid || ""} onChange={(e) => setCurrentSale({...currentSale, paid: e.target.value || ""})} placeholder="true" />
+        <Button style={{backgroundColor:  '#FFC0CB', fontWeight: 'bold'}} variant="contained" onClick={() => {updateSale({customer: customer, price: parseFloat(price), product: product, formOfPayment: formOfPayment, paid: paid});}}>Edit</Button>
+      </div>
+    </Modal>
+
+    <Modal
+      opened={editSale}
+      onClose={() => setEditSale(false)}
+    >
+      <div className="flex flex-row m-12 items-center justify-around">
+        <Text onClick={() => {setOpenEditSale(true); setEditSale(false);}} size="xl" className="flex flex-col items-center justify-center active:border-4 active:border-blue-500 p-5 active:rounded">
+          Edit
+          <PencilAltIcon className="h-12 w-12 text-blue-500" />
+        </Text>
+        <Text onClick={() => {deleteSale();}} size="xl" className="flex flex-col items-center justify-center active:border-4 active:border-red-500 p-5 active:rounded">
+          Delete
+        <TrashIcon className="h-12 w-12 text-red-500" />
+        </Text>
+      </div>
+    </Modal>
   </div>
    );
 };
