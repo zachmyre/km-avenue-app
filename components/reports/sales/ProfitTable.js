@@ -48,11 +48,11 @@ export default function ProfitTable({sales}){
 
 
   const columns = [
-    { field: 'customer', headerName: 'Customer', flex:1, minWidth: 50 },
-    { field: 'product', headerName: 'Product', flex:1, minWidth: 50 },
-    { field: 'price', headerName: 'Price', flex:1, minWidth: 50 },
-    { field: 'formOfPayment', headerName: 'Payment', flex:1, minWidth: 50 },
-    { field: 'paid', headerName: 'Paid', flex:1, minWidth: 50 },
+    { field: 'customer', headerName: 'Customer', width: 100, minWidth: 75, maxWidth: 200 },
+    { field: 'product', headerName: 'Product', width: 100, minWidth: 75, maxWidth: 200 },
+    { field: 'price', headerName: 'Price', width: 50, minWidth: 50, maxWidth: 75 },
+    { field: 'formOfPayment', headerName: '$ Method', width: 50, minWidth: 50, maxWidth: 75 },
+    { field: 'paid', headerName: '$ Status', width: 50, minWidth: 50, maxWidth: 75 },
   ]
 
   const handleOnCellClick = (params) => {
