@@ -8,6 +8,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 
 
 export default function ProfitTable({sales}){
+
     const router = useRouter();
     const refreshData = () => {
       router.replace(router.asPath);
@@ -33,9 +34,18 @@ export default function ProfitTable({sales}){
       return ret;
   }
 
-  const sum = sales.reduce((total, sale) => {
-    return total + parseFloat(sale.price);
-  }, 0);
+  function sum(){
+    let total = 0;
+    sales.forEach((sale) => {
+      if(sale.paid.toLowerCase() === 'yes'){
+      total += sale.price;
+      }
+    });
+    console.log(total);
+    return parseFloat(total);
+  };
+
+
 
   const columns = [
     { field: 'customer', headerName: 'Customer', flex:1, minWidth: 50 },
@@ -132,7 +142,7 @@ export default function ProfitTable({sales}){
           Sales
         </Typography>
         <Typography className='tracking-wider' variant="body2">
-         ${parseFloat(sum).toFixed(2)}
+         ${parseFloat(sum()).toFixed(2)}
         </Typography>
       </CardContent>
         </Card>
