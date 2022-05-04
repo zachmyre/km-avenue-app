@@ -36,28 +36,29 @@ export async function getStaticProps() {
     console.error(e)
     return {
       props: { isConnected: false },
+      revalidate: 10,
     }
   }
 }
 
-export async function getStaticPaths() {
-  try {
-    const client = await clientPromise;
+// export async function getStaticPaths() {
+//   try {
+//     const client = await clientPromise;
 
-    const db = client.db("km-avenue");
+//     const db = client.db("km-avenue");
 
-    let expenses = await db.collection("expenses").find({}).toArray();
-    expenses = JSON.parse(JSON.stringify(expenses));
-    let sales = await db.collection('sales').find({}).toArray();
-    sales = JSON.parse(JSON.stringify(sales));
+//     let expenses = await db.collection("expenses").find({}).toArray();
+//     expenses = JSON.parse(JSON.stringify(expenses));
+//     let sales = await db.collection('sales').find({}).toArray();
+//     sales = JSON.parse(JSON.stringify(sales));
 
-    return {
-      props: { isConnected: true, expenses: expenses, sales: sales},
-    }
-  } catch (e) {
-    console.error(e)
-    return {
-      props: { isConnected: false },
-    }
-  }
-}
+//     return {
+//       props: { isConnected: true, expenses: expenses, sales: sales},
+//     }
+//   } catch (e) {
+//     console.error(e)
+//     return {
+//       props: { isConnected: false },
+//     }
+//   }
+// }
