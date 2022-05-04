@@ -18,7 +18,7 @@ export default function Home({expenses, sales}) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   try {
     const client = await clientPromise;
 
@@ -28,9 +28,6 @@ export async function getServerSideProps(context) {
     expenses = JSON.parse(JSON.stringify(expenses));
     let sales = await db.collection('sales').find({}).toArray();
     sales = JSON.parse(JSON.stringify(sales));
-
-    console.log(expenses, sales);
-
 
     return {
       props: { isConnected: true, expenses: expenses, sales: sales},
