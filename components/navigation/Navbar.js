@@ -17,25 +17,25 @@ import Image from 'next/image';
 import logo from '../../public/kmavenue.png';
 
 const pages = [['Home','/'], ['Products', '/products'], ['Contact', '/contact'], ['Admin', '/admin']];
-const settings = [['Dashboard', '/admin'], ['Order Reports', '/admin/orders'], ['Expense Reports', '/admin/expense'], ['Logout', '/logout']];
+const settings = [['Dashboard', '/admin'], ['Order Reports', '/admin/orders'], ['Expense Reports', '/admin/expenses'], ['Logout', '/logout']];
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorForNav, setAnchorForNav] = useState(null);
+  const [anchorForUser, setAnchorForUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+    setAnchorForNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchorForUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorForNav(null);
   };
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchorForUser(null);
   };
 
   return (
@@ -68,7 +68,7 @@ const Navbar = () => {
             </IconButton>
             <Menu
               id="menu-appbar"
-              anchorEl={anchorElNav}
+              anchorEl={anchorForNav}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
@@ -78,7 +78,7 @@ const Navbar = () => {
                 vertical: 'top',
                 horizontal: 'left',
               }}
-              open={Boolean(anchorElNav)}
+              open={Boolean(anchorForNav)}
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' },
@@ -123,7 +123,7 @@ const Navbar = () => {
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
-              anchorEl={anchorElUser}
+              anchorEl={anchorForUser}
               anchorOrigin={{
                 vertical: 'top',
                 horizontal: 'right',
@@ -133,7 +133,7 @@ const Navbar = () => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
-              open={Boolean(anchorElUser)}
+              open={Boolean(anchorForUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
