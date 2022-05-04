@@ -18,7 +18,29 @@ export default function Home({expenses, sales}) {
   )
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps() {
+  try {
+    const client = await clientPromise;
+
+    const db = client.db("km-avenue");
+
+    let expenses = await db.collection("expenses").find({}).toArray();
+    expenses = JSON.parse(JSON.stringify(expenses));
+    let sales = await db.collection('sales').find({}).toArray();
+    sales = JSON.parse(JSON.stringify(sales));
+
+    return {
+      props: { isConnected: true, expenses: expenses, sales: sales},
+    }
+  } catch (e) {
+    console.error(e)
+    return {
+      props: { isConnected: false },
+    }
+  }
+}
+
+export async function getStaticPaths() {
   try {
     const client = await clientPromise;
 
