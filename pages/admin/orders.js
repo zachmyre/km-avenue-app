@@ -10,8 +10,7 @@ export default function Home({expenses, sales}) {
   return (
       <>
     <div className={styles.container}>
-
-    <ExpenseTable expenses={expenses} />
+    <ProfitTable sales={sales} />
     </div>
     </>
   )
@@ -23,11 +22,11 @@ export async function getStaticProps() {
 
     const db = client.db("km-avenue");
 
-    let expenses = await db.collection("expenses").find({}).toArray();
-    expenses = JSON.parse(JSON.stringify(expenses));
+    let sales = await db.collection('sales').find({}).toArray();
+    sales = JSON.parse(JSON.stringify(sales));
 
     return {
-      props: { isConnected: true, expenses: expenses},
+      props: { isConnected: true, sales: sales},
     }
   } catch (e) {
     console.error(e)
