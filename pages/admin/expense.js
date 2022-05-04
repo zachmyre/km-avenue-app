@@ -29,6 +29,8 @@ export async function getServerSideProps(context) {
     let sales = await db.collection('sales').find({}).toArray();
     sales = JSON.parse(JSON.stringify(sales));
 
+    console.log(expenses, sales);
+
 
     return {
       props: { isConnected: true, expenses: expenses, sales: sales},

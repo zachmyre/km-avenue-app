@@ -14,6 +14,7 @@ export default function ProfitTable({sales}){
       router.replace(router.asPath);
     }
 
+
     const [customer, setCustomer] = useState('');
     const [price, setPrice] = useState('');
     const [product, setProduct] = useState('');
@@ -41,7 +42,6 @@ export default function ProfitTable({sales}){
       total += sale.price;
       }
     });
-    console.log(total);
     return parseFloat(total);
   };
 

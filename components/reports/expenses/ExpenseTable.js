@@ -31,9 +31,13 @@ export default function ExpenseTable({expenses}){
       return ret;
   }
 
-  const sum = expenses.reduce((total, expense) => {
-    return total + expense.price;
-  }, 0);
+  function sum(){
+    let total = 0;
+    expenses.forEach((expense) => {
+      total += parseFloat(expense.price);
+    });
+    return parseFloat(total);
+  };
 
   const columns = [
     { field: 'product', headerName: 'Product', flex:1, minWidth: 50 },
@@ -124,7 +128,7 @@ export default function ExpenseTable({expenses}){
           Expenses
         </Typography>
         <Typography className='tracking-wider' variant="body2">
-         ${parseFloat(sum).toFixed(2)}
+         ${parseFloat(sum()).toFixed(2)}
         </Typography>
       </CardContent>
         </Card>
