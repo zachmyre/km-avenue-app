@@ -39,7 +39,7 @@ export default function ProfitTable({sales}){
     let total = 0;
     sales.forEach((sale) => {
       if(sale.paid.toLowerCase() === 'yes'){
-      total += sale.price;
+      total += parseFloat(sale.price);
       }
     });
     return parseFloat(total);
