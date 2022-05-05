@@ -32,7 +32,6 @@ export async function getServerSideProps() {
     console.error(e)
     return {
       props: { isConnected: false },
-      revalidate: 10,
     }
   }
 }
