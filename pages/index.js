@@ -1,11 +1,10 @@
 import styles from '../styles/Home.module.css'
-
-//3wOX1ebcBP7mBr5o
+import Hero from '../components/homepage/hero'
 
 export default function Home() {
   return (
     <div className={styles.container}>
-
+      <Hero />
     </div>
   )
 }

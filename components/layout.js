@@ -12,7 +12,7 @@ return (
   <>
        <Navbar />
         <main style={styles}>
-           <section style={{ width: "1024px" }}>{children}</section>      
+           <section style={{ width: "98vw", marginLeft: 'auto', marginRight: 'auto' }}>{children}</section>      
         </main>
        <Footer />
   </>
