@@ -53,7 +53,7 @@ export default function Hero() {
               <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-kandy-pink hover:bg-black md:py-4 md:text-lg md:px-10"> Shop Products </a>
             </div>
             <div className="mt-3 sm:mt-0 sm:ml-3">
-              <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-kandy-pink bg-black hover:bg-kandy-pink hover:text-white md:py-4 md:text-lg md:px-10"> Contact Us </a>
+              <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-kandy-pink md:py-4 md:text-lg md:px-10"> Contact Us </a>
             </div>
           </div>
         </div>
