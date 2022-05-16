@@ -1,114 +1,67 @@
 import { useState } from 'react';
-import { Typography, Box } from '@mui/material';
-import Image  from 'next/image';
-import Carousel from 'react-multi-carousel';
-import 'react-multi-carousel/lib/styles.css';
-import heroLogo from '../../public/hero/logo-hero.jpg';
+import Image from 'next/image'
 
-const images = [
-  {
-    label: 'Adulting T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/QjPD1H1/adulting.jpg',
-  },
-  { 
-    label: 'Baby T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/80Hv0vp/baby.jpg',
-  },
-  { 
-    label: 'Easter T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/PzqmXC3/behoppy.jpg'
-  },
-  {
-    label: 'Custom Easter T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/n3wV2fn/bighoppa.jpg'
-  },
-  {
-    label: 'Custom Funny T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/r0PQwtM/brokenfilter.jpg'
-  },
-  {
-    label: 'Vinyl T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/nM0jcFM/heart.jpg'
-  },
-  {
-    label: 'Good Vibes T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/G0x1FLG/peachy.jpg'
-  },
-  {
-    label: 'Getting Older T-Shirt by KM Avenue',
-    imgPath: 'https://i.ibb.co/PgQphMV/thirty.jpg'
-  },
-];
 
-function Hero() {
+
+// const images = [
+//   {
+//     label: 'Adulting T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/QjPD1H1/adulting.jpg',
+//   },
+//   { 
+//     label: 'Baby T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/80Hv0vp/baby.jpg',
+//   },
+//   { 
+//     label: 'Easter T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/PzqmXC3/behoppy.jpg'
+//   },
+//   {
+//     label: 'Custom Easter T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/n3wV2fn/bighoppa.jpg'
+//   },
+//   {
+//     label: 'Custom Funny T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/r0PQwtM/brokenfilter.jpg'
+//   },
+//   {
+//     label: 'Vinyl T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/nM0jcFM/heart.jpg'
+//   },
+//   {
+//     label: 'Good Vibes T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/G0x1FLG/peachy.jpg'
+//   },
+//   {
+//     label: 'Getting Older T-Shirt by KM Avenue',
+//     imgPath: 'https://i.ibb.co/PgQphMV/thirty.jpg'
+//   },
+// ];
+
+export default function Hero() {
     return (
-        <Box sx={{display: "flex", flexDirection: "column", backgroundImage: `url('/hero/bg.png')`, backgroundSize: {xs: 'contain', md:'cover'}, backgroundRepeat: 'no-repeat'}}>
-          <Box sx={{width: '100%', height: {xs: '30vh', md:'45vh'}, display: "flex", flexDirection: "column", alignItems: 'center', justifyContent: 'center'}}>
-          <Typography variant="h1" sx={{fontSize: {xs: '3.5rem', md: '5rem'}, color:'hotpink', textShadow:'2px black', textAlign: 'center', fontWeight: 'bold', marginRight: {xs: '0', md: '17.5vw'}}}>
-            KM Avenue
-          </Typography>
-          </Box>
-        <Carousel
-        arrows={false}
-        additionalTransfrom={0}
-        autoPlay={true}
-        autoPlaySpeed={1500}
-        centerMode={true}
-        className=""
-        containerClass="container-with-dots"
-        dotListClass=""
-        draggable
-        focusOnSelect={false}
-        infinite
-        itemClass=""
-        keyBoardControl
-        minimumTouchDrag={80}
-        renderButtonGroupOutside={false}
-        renderDotsOutside={false}
-        responsive={{
-          desktop: {
-            breakpoint: {
-              max: 3000,
-              min: 1024
-            },
-            items: 3,
-            partialVisibilityGutter: 40
-          },
-          mobile: {
-            breakpoint: {
-              max: 464,
-              min: 0
-            },
-            items: 1,
-            partialVisibilityGutter: 30
-          },
-          tablet: {
-            breakpoint: {
-              max: 1024,
-              min: 464
-            },
-            items: 2,
-            partialVisibilityGutter: 30
-          }
-        }}
-        showDots={false}
-        sliderClass=""
-        slidesToSlide={1}
-        swipeable
-      >
-          {images.map((image, index) =>(
-              <Image
-                    key={index}
-                    src={image.imgPath}
-                    width={250}
-                    height={300}
-                    layout="responsive"
-                    alt={image.label}
-            />
-          ))}
-      </Carousel>
-      </Box>
+      <div className="relative bg-white overflow-hidden">
+      <main className="mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+        <div className="sm:text-center lg:text-left w-full lg:w-1/2">
+          <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+            <span className="block xl:inline">Fits for you, </span>
+            <span className="block text-kandy-pink xl:inline">a boutique for everyone.</span>
+          </h1>
+          <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">KM Avenue is a small, locally supporting business that aims to bring more creativity to apparel. With our sublimation and vinyl techniques, we hope to bring your ideas to life with custom apparel and accessories.</p>
+          <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+            <div className="rounded-md shadow">
+              <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-kandy-pink hover:bg-black md:py-4 md:text-lg md:px-10"> Get started </a>
+            </div>
+            <div className="mt-3 sm:mt-0 sm:ml-3">
+              <a href="#" className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-kandy-pink bg-black hover:bg-kandy-pink hover:text-white md:py-4 md:text-lg md:px-10"> Live demo </a>
+            </div>
+          </div>
+        </div>
+      </main>
+  <div className="mt-3 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+    <img className="h-56 w-full object-cover sm:h-72 md:h-96 lg:h-full" src="https://i.ibb.co/G0x1FLG/peachy.jpg" alt="" />
+  </div>
+</div>
     );
 }
 
-export default Hero;
