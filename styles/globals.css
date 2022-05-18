@@ -2,3 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.carousel .thumb img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.carousel .slide img {
+    max-height: 40rem;
+    width: auto;
+}
